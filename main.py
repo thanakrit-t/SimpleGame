@@ -8,6 +8,8 @@ CELL_SIZE = 20
 GRID_WIDTH = 30
 GRID_HEIGHT = 20
 GAME_SPEED = 100
+MIN_GAME_SPEED = 40
+MAX_GAME_SPEED = 300
 
 
 class SnakeGame:
@@ -25,6 +27,7 @@ class SnakeGame:
         self.direction = "Right"
         self.next_direction = "Right"
         self.job = None
+        self.game_speed = GAME_SPEED
 
         self.score_label = tk.Label(
             root, text="Score: 0    High Score: 0",
@@ -42,6 +45,43 @@ class SnakeGame:
         )
         self.canvas.pack(padx=10, pady=(0, 10))
 
+        speed_frame = tk.Frame(root)
+        speed_frame.pack(fill="x", padx=10, pady=(0, 4))
+
+        tk.Label(
+            speed_frame, text="Speed:",
+            font=("Arial", 11, "bold")
+        ).pack(side="left")
+
+        tk.Label(
+            speed_frame, text="Slow",
+            font=("Arial", 10)
+        ).pack(side="left", padx=(8, 2))
+
+        self.speed_scale = tk.Scale(
+            speed_frame,
+            from_=MAX_GAME_SPEED,
+            to=MIN_GAME_SPEED,
+            resolution=20,
+            orient="horizontal",
+            showvalue=False,
+            length=220,
+            command=self.set_game_speed
+        )
+        self.speed_scale.pack(side="left")
+
+        tk.Label(
+            speed_frame, text="Fast",
+            font=("Arial", 10)
+        ).pack(side="left", padx=(2, 8))
+
+        self.speed_label = tk.Label(
+            speed_frame, text="Normal",
+            font=("Arial", 10, "bold"), width=10
+        )
+        self.speed_label.pack(side="left")
+        self.speed_scale.set(self.game_speed)
+
         self.root.bind("<Up>", lambda event: self.change_direction("Up"))
         self.root.bind("<Down>", lambda event: self.change_direction("Down"))
         self.root.bind("<Left>", lambda event: self.change_direction("Left"))
@@ -52,6 +92,8 @@ class SnakeGame:
         self.root.bind("d", lambda event: self.change_direction("Right"))
         self.root.bind("<space>", lambda event: self.toggle_pause())
         self.root.bind("<Return>", lambda event: self.start_game())
+        self.root.bind("+", lambda event: self.adjust_game_speed(-20))
+        self.root.bind("-", lambda event: self.adjust_game_speed(20))
 
         self.draw_start_screen()
 
@@ -98,7 +140,23 @@ class SnakeGame:
         self.update_score()
         self.spawn_food()
         self.draw_game()
-        self.job = self.root.after(GAME_SPEED, self.tick)
+        self.job = self.root.after(self.game_speed, self.tick)
+
+    def set_game_speed(self, value):
+        self.game_speed = int(float(value))
+        if self.game_speed <= 80:
+            label = "Very Fast"
+        elif self.game_speed <= 120:
+            label = "Fast" if self.game_speed < GAME_SPEED else "Normal"
+        elif self.game_speed <= 220:
+            label = "Slow"
+        else:
+            label = "Very Slow"
+        self.speed_label.config(text=label)
+
+    def adjust_game_speed(self, amount):
+        speed = max(MIN_GAME_SPEED, min(MAX_GAME_SPEED, self.game_speed + amount))
+        self.speed_scale.set(speed)
 
     def spawn_food(self):
         empty_cells = [
@@ -122,7 +180,7 @@ class SnakeGame:
             self.draw_pause_overlay()
         else:
             self.canvas.delete("pause_overlay")
-            self.job = self.root.after(GAME_SPEED, self.tick)
+            self.job = self.root.after(self.game_speed, self.tick)
 
     def draw_pause_overlay(self):
         if self.job is not None:
@@ -176,7 +234,7 @@ class SnakeGame:
             self.snake.pop()
 
         self.draw_game()
-        self.job = self.root.after(GAME_SPEED, self.tick)
+        self.job = self.root.after(self.game_speed, self.tick)
 
     def draw_game(self):
         self.canvas.delete("all")
