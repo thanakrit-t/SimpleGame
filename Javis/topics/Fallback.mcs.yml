@@ -1,0 +1,22 @@
+mcs.metadata:
+  componentName: ทางเลือก
+  description: หัวข้อของระบบนี้จะทริกเกอร์เมื่อคำพูดของผู้ใช้ไม่ตรงกับหัวข้อในปัจจุบัน
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnUnknownIntent
+  id: main
+  actions:
+    - kind: ConditionGroup
+      id: conditionGroup_LktzXw
+      conditions:
+        - id: conditionItem_tlGIVo
+          condition: =System.FallbackCount < 3
+          actions:
+            - kind: SendActivity
+              id: sendMessage_QZreqo
+              activity: ขออภัย ฉันไม่แน่ใจว่าจะช่วยคุณในเรื่องนั้นได้อย่างไร คุณลองเรียบเรียงประโยคใหม่ได้ไหม
+
+      elseActions:
+        - kind: BeginDialog
+          id: 5aXj5M
+          dialog: crca9_Javis.topic.Escalate

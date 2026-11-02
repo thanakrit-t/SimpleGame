@@ -1,0 +1,46 @@
+mcs.metadata:
+  componentName: หลายหัวข้อที่ตรงกัน
+  description: หัวข้อของระบบนี้จะทริกเกอร์เมื่อเอเจนต์จับคู่หลายหัวข้อกับข้อความที่ได้รับ และจำเป็นต้องถามให้แน่ชัดว่าควรทริกเกอร์หัวข้อใด
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnSelectIntent
+  id: main
+  triggerBehavior: Always
+  actions:
+    - kind: SetVariable
+      id: setVariable_M6434i
+      variable: init:Topic.IntentOptions
+      value: =System.Recognizer.IntentOptions
+
+    - kind: SetTextVariable
+      id: setTextVariable_0
+      variable: Topic.NoneOfTheseDisplayName
+      value: ไม่ใช่รายการเหล่านี้
+
+    - kind: EditTable
+      id: sendMessage_g5Ls09
+      changeType: Add
+      itemsVariable: Topic.IntentOptions
+      value: "={ DisplayName: Topic.NoneOfTheseDisplayName, TopicId: \"NoTopic\", TriggerId: \"NoTrigger\", Score: 1.0 }"
+
+    - kind: Question
+      id: question_zf2HhP
+      interruptionPolicy:
+        allowInterruption: false
+
+      alwaysPrompt: true
+      variable: System.Recognizer.SelectedIntent
+      prompt: "เพื่ออธิบายให้ชัดเจน คุณหมายถึง:"
+      entity:
+        kind: DynamicClosedListEntity
+        items: =Topic.IntentOptions
+
+    - kind: ConditionGroup
+      id: conditionGroup_60PuXb
+      conditions:
+        - id: conditionItem_rs7GgM
+          condition: =System.Recognizer.SelectedIntent.TopicId = "NoTopic"
+          actions:
+            - kind: ReplaceDialog
+              id: YZXRDb
+              dialog: crca9_Javis.topic.Fallback

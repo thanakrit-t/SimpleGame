@@ -1,0 +1,28 @@
+mcs.metadata:
+  componentName: การทักทาย
+  description: หัวข้อนี้จะทริกเกอร์เมื่อผู้ใช้ทักทายเอเจนต์
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent:
+    displayName: การทักทาย
+    includeInOnSelectIntent: false
+    triggerQueries:
+      - สวัสดีตอนบ่าย
+      - สวัสดีตอนเช้า
+      - สวัสดี
+      - เฮ้
+      - ไง
+
+  actions:
+    - kind: SendActivity
+      id: sendMessage_abmysR
+      activity:
+        text:
+          - สวัสดี ฉันจะช่วยคุณได้อย่างไร
+        speak:
+          - สวัสดี <break strength="medium" /> ฉันจะช่วยคุณได้อย่างไร
+
+    - kind: CancelAllDialogs
+      id: cancelAllDialogs_01At22

@@ -1,0 +1,46 @@
+mcs.metadata:
+  componentName: การเริ่มต้นการสนทนา
+  description: หัวข้อของระบบนี้จะทริกเกอร์เมื่อเอเจนต์ได้รับกิจกรรม ซึ่งบ่งชี้ถึงการเริ่มต้นการสนทนาใหม่ หากคุณไม่ต้องการให้เอเจนต์เริ่มการสนทนา ให้ปิดใช้งานหัวข้อนี้
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnConversationStart
+  id: main
+  actions:
+    - kind: Question
+      id: question_uIbYxa
+      interruptionPolicy:
+        allowInterruption: true
+
+      variable: init:Topic.Var1
+      prompt: สวัสดี ฉันชื่อ Javis เป็นผู้ช่วย IT ของบริษัท วันนี้อยากให้ช่วยเรื่องไหนครับ
+      entity:
+        kind: EmbeddedEntity
+        definition:
+          kind: ClosedListEntity
+          items:
+            - id: FAQ
+              displayName: FAQ
+
+            - id: สอบถามข้อมูล
+              displayName: สอบถามข้อมูล
+
+    - kind: ConditionGroup
+      id: conditionGroup_jbHrYA
+      conditions:
+        - id: conditionItem_hgvwI6
+          condition: =Topic.Var1 = 'crca9_Javis.topic.ConversationStart.main.question_uIbYxa'.FAQ
+          actions:
+            - kind: BeginDialog
+              id: 7mfoO5
+              dialog: crca9_Javis.topic.FAQ
+
+        - id: conditionItem_z7yP4s
+          condition: =Topic.Var1 = 'crca9_Javis.topic.ConversationStart.main.question_uIbYxa'.'สอบถามข้อมูล'
+
+    - kind: SendActivity
+      id: sendMessage_M0LuhV
+      activity:
+        text:
+          - สวัสดี ฉันชื่อ {System.Bot.Name} ฉันจะช่วยคุณได้อย่างไร
+        speak:
+          - สวัสดีและขอขอบคุณที่โทรเข้ามายัง {System.Bot.Name} โปรดทราบว่าการตอบกลับบางรายการสร้างขึ้นโดย AI และอาจต้องมีการตรวจสอบเพื่อความถูกต้อง มีอะไรให้ฉันช่วยคุณได้บ้างในวันนี้

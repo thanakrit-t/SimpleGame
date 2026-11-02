@@ -1,0 +1,7 @@
+mcs.metadata:
+  componentName: ระเบียบปฏิบัติเกียวกับการรักษาความปลอดภัยของข้อมูลข่าวสาร_ (2024_0131).xlsx
+  description: This knowledge source provides information found in ระเบียบปฏิบัติเกียวกับการรักษาความปลอดภัยของข้อมูลข่าวสาร_ (2024_0131).xlsx SharePoint.
+kind: KnowledgeSourceConfiguration
+source:
+  kind: SharePointSearchSource
+  site: https://thaikurabo.sharepoint.com/sites/ITKURABO/Shared%20Documents/Information%20Security/ระเบียบปฏิบัติเกียวกับการรักษาความปลอดภัยของข้อมูลข่าวสาร_%20(2024_0131).xlsx

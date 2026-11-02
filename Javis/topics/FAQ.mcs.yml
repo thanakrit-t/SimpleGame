@@ -1,0 +1,53 @@
+mcs.metadata:
+  componentName: FAQ
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRedirect
+  id: main
+  actions:
+    - kind: Question
+      id: question_HJEMPL
+      interruptionPolicy:
+        allowInterruption: true
+
+      variable: init:Topic.Var1
+      prompt: คำถามที่พบบ่อยเกี่ยวกับ IT อยากได้ข้อมูลเรื่องไหน เลือกหัวข้อที่ต้องการได้เลยครับ
+      entity:
+        kind: EmbeddedEntity
+        definition:
+          kind: ClosedListEntity
+          items:
+            - id: คอมพิวเตอร์เปิดไม่ติด
+              displayName: คอมพิวเตอร์เปิดไม่ติด
+
+            - id: ปริ้นเตอร์พิมพ์ไม่ออก
+              displayName: ปริ้นเตอร์พิมพ์ไม่ออก
+
+    - kind: ConditionGroup
+      id: conditionGroup_TOy0sB
+      conditions:
+        - id: conditionItem_FMU6gZ
+          condition: =Topic.Var1 = 'crca9_Javis.topic.FAQ.main.question_HJEMPL'.'คอมพิวเตอร์เปิดไม่ติด'
+          actions:
+            - kind: SendActivity
+              id: sendActivity_eGjn05
+              activity:
+
+        - id: conditionItem_M5jTHZ
+          condition: =Topic.Var1 = 'crca9_Javis.topic.FAQ.main.question_HJEMPL'.'ปริ้นเตอร์พิมพ์ไม่ออก'
+          actions:
+            - kind: SendActivity
+              id: sendActivity_VevdrO
+              activity:
+                text:
+                  - |-
+                    ขั้นตอนการตรวจสอบ
+                    1.ตรวจสอบ Error ที่พบ
+                    2.ตรวจสอบคิวงานที่พิมพ์ค้าง
+                    3.การตั้งค่ากระดาษ
+                attachments:
+                  - kind: ImageCardTemplate
+                    image: https://www.ofm.co.th/blog/printer-not-printing-solutions/
+
+inputType: {}
+outputType: {}

@@ -1,0 +1,48 @@
+mcs.metadata:
+  componentName: เมื่อเกิดข้อผิดพลาด
+  description: หัวข้อของระบบนี้ทริกเกอร์เมื่อเอเจนต์พบข้อผิดพลาด เมื่อใช้บานหน้าต่างแชททดสอบ คำอธิบายข้อผิดพลาดแบบเต็มจะแสดงขึ้น
+kind: AdaptiveDialog
+startBehavior: UseLatestPublishedContentAndCancelOtherTopics
+beginDialog:
+  kind: OnError
+  id: main
+  actions:
+    - kind: SetVariable
+      id: setVariable_timestamp
+      variable: init:Topic.CurrentTime
+      value: =Text(Now(), DateTimeFormat.UTC)
+
+    - kind: ConditionGroup
+      id: condition_1
+      conditions:
+        - id: bL4wmY
+          condition: =System.Conversation.InTestMode = true
+          actions:
+            - kind: SendActivity
+              id: sendMessage_XJBYMo
+              activity: |-
+                ข้อความแสดงข้อผิดพลาด: {System.Error.Message}
+                รหัสข้อผิดพลาด: {System.Error.Code}
+                ID การสนทนา: {System.Conversation.Id}
+                เวลา (UTC): {Topic.CurrentTime}
+
+      elseActions:
+        - kind: SendActivity
+          id: sendMessage_dZ0gaF
+          activity:
+            text:
+              - |-
+                เกิดข้อผิดพลาด
+                รหัสข้อผิดพลาด: {System.Error.Code}
+                ID การสนทนา: {System.Conversation.Id}
+                เวลา (UTC): {Topic.CurrentTime}
+            speak:
+              - เกิดข้อผิดพลาดขึ้น โปรดลองอีกครั้ง
+
+    - kind: LogCustomTelemetryEvent
+      id: 9KwEAn
+      eventName: OnErrorLog
+      properties: "={ErrorMessage: System.Error.Message, ErrorCode: System.Error.Code, TimeUTC: Topic.CurrentTime, ConversationId: System.Conversation.Id}"
+
+    - kind: CancelAllDialogs
+      id: NW7NyY

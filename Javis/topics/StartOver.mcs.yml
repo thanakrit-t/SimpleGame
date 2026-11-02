@@ -1,0 +1,37 @@
+mcs.metadata:
+  componentName: เริ่มต้นใหม่
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent:
+    displayName: เริ่มต้นใหม่
+    includeInOnSelectIntent: false
+    triggerQueries:
+      - มาเริ่มต้นใหม่อีกครั้ง
+      - เริ่มต้นใหม่
+      - เริ่มอีกครั้ง
+      - รีสตาร์ท
+
+  actions:
+    - kind: Question
+      id: question_zguoVV
+      alwaysPrompt: false
+      variable: init:Topic.Confirm
+      prompt: คุณแน่ใจหรือไม่ว่าต้องการเริ่มการสนทนาใหม่
+      entity: BooleanPrebuiltEntity
+
+    - kind: ConditionGroup
+      id: conditionGroup_lvx2zV
+      conditions:
+        - id: conditionItem_sVQtHa
+          condition: =Topic.Confirm = true
+          actions:
+            - kind: BeginDialog
+              id: 0YKYsy
+              dialog: crca9_Javis.topic.ResetConversation
+
+      elseActions:
+        - kind: SendActivity
+          id: sendMessage_lk2CyQ
+          activity: ตกลง ไปต่อกันเลย

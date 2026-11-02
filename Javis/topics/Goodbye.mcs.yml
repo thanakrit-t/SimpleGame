@@ -1,0 +1,41 @@
+mcs.metadata:
+  componentName: การบอกลา
+  description: หัวข้อนี้จะทริกเกอร์เมื่อผู้ใช้บอกลา ตามค่าเริ่มต้นแล้ว การบอกลาจะไม่สิ้นสุดการสนทนา หากคุณต้องการสิ้นสุดการสนทนาเมื่อผู้ใช้บอกลา คุณสามารถเพิ่มการดำเนินการ "สิ้นสุดการสนทนา" ในหัวข้อนี้ หรือเปลี่ยนเส้นทางไปยังหัวข้อของระบบ "สิ้นสุดการสนทนา"
+kind: AdaptiveDialog
+startBehavior: CancelOtherTopics
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent:
+    displayName: การบอกลา
+    includeInOnSelectIntent: false
+    triggerQueries:
+      - ลาก่อน
+      - ตอนนี้ขอลาก่อน
+      - ลาก่อนนะ
+      - ไม่เป็นไร ขอบคุณ ลาก่อน
+      - แล้วพบกันใหม่
+
+  actions:
+    - kind: Question
+      id: question_zf2HhP
+      variable: Topic.EndConversation
+      prompt: คุณต้องการจบการสนทนาของเราหรือไม่
+      entity: BooleanPrebuiltEntity
+
+    - kind: ConditionGroup
+      id: condition_DGc1Wy
+      conditions:
+        - id: condition_DGc1Wy-item-0
+          condition: =Topic.EndConversation = true
+          actions:
+            - kind: BeginDialog
+              id: dn94DC
+              dialog: crca9_Javis.topic.EndofConversation
+
+        - id: condition_DGc1Wy-item-1
+          condition: =Topic.EndConversation = false
+          actions:
+            - kind: SendActivity
+              id: sendMessage_LdLhmf
+              activity: พูดมาเลย ฉันฟังอยู่

@@ -1,0 +1,22 @@
+mcs.metadata:
+  componentName: "ลงชื่อเข้าใช้ "
+  description: หัวข้อของระบบนี้ทริกเกอร์เมื่อเอเจนต์จำเป็นต้องเข้าสู่ระบบของผู้ใช้หรือต้องการให้ผู้ใช้เข้าสู่ระบบ
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnSignIn
+  id: main
+  actions:
+    - kind: ConditionGroup
+      id: conditionGroup_ypjGKL
+      conditions:
+        - id: conditionItem_7XYIIR
+          condition: =System.SignInReason = SignInReason.SignInRequired
+          actions:
+            - kind: SendActivity
+              id: sendMessage_1jHUNO
+              activity: สวัสดี เพื่อให้ฉันสามารถช่วยคุณได้ คุณจะต้องลงชื่อเข้าใช้ก่อน
+
+    - kind: OAuthInput
+      id: gOjhZA
+      title: เข้าสู่ระบบ
+      text: หากต้องการดำเนินการต่อ โปรดเข้าสู่ระบบ

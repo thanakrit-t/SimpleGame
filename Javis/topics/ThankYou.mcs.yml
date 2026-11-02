@@ -1,0 +1,19 @@
+mcs.metadata:
+  componentName: ขอบคุณ
+  description: หัวข้อนี้จะทริกเกอร์เมื่อผู้ใช้กล่าวขอบคุณ
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent:
+    displayName: ขอบคุณ
+    includeInOnSelectIntent: false
+    triggerQueries:
+      - ขอขอบคุณ
+      - ขอบคุณ
+      - ขอบคุณมาก
+
+  actions:
+    - kind: SendActivity
+      id: sendMessage_9iz6v7
+      activity: ด้วยความยินดี
